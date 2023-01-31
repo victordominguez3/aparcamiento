@@ -1,32 +1,50 @@
-import Aparcamiento.crearListaClientesInicial
-import Aparcamiento.crearListaCoches
-import Aparcamiento.crearParking
+import Aparcamiento.aparcarCoche
+import Aparcamiento.comprobarSitio
+import Aparcamiento.imprimirListaClientes
+import Aparcamiento.imprimirListaCoches
+import Aparcamiento.imprimirListaCompleta
 import Aparcamiento.imprimirParking
-import factories.CochesFactory
-import factories.ConductoresFactory
-import models.Coche
-
-const val PRECIO_PARKING = 3.75
+import Aparcamiento.parking
+import Aparcamiento.recaudacion
+import Aparcamiento.sacarCoche
 
 fun main() {
 
-    var listaClientes = crearListaClientesInicial()
-    var listaCoches = crearListaCoches(listaClientes)
-    var parking = crearParking(listaCoches)
+    var resp: String
+    val respRegex = Regex("[1-8]")
 
-    imprimirParking(parking)
-    for (i in listaCoches){
-        println(i)
-    }
+    do {
+        imprimirParking(parking)
+        println()
+        println("\n1.\tVer lista de clientes y sus coches")
+        println("2.\tVer lista de clientes")
+        println("3.\tVer lista de coches")
+        println("4.\tVer recaudación actual del parking")
+        println("5.\tAparcar un coche")
+        println("6.\tSacar un coche")
+        println("7.\tComprobar datos de un sitio")
+        println("8.\tSalir")
 
+        print("\nSeleccione una acción: ")
+        resp = readln()
+        while (!respRegex.matches(resp)) {
+            print("Seleccione una acción válida: ")
+            resp = readln()
+        }
 
+        when (resp) {
+            "1" -> imprimirListaCompleta()
+            "2" -> imprimirListaClientes()
+            "3" -> imprimirListaCoches()
+            "4" -> println("\nSe han recaudado $recaudacion€")
+            "5" -> aparcarCoche()
+            "6" -> sacarCoche()
+            "7" -> comprobarSitio()
+        }
 
+    } while (resp != "8")
 
-
-    Aparcamiento.imprimirListaClientes(listaClientes)
-
-    println(CochesFactory.matriculas.contentToString())
-    println(ConductoresFactory.dnis.contentToString())
+    println("Cerrando programa...")
 
 }
 

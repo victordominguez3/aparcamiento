@@ -31,7 +31,7 @@ object CochesFactory {
     val anyosFabricacion = 1990..2022
     var matriculas = Array<String> (0) { "" }
 
-    fun crearCoche(conductor: Conductor): Coche {
+    fun crearCoche(conductor: Conductor?): Coche {
         return Coche(generarMatriculaRandom(), marcas.random(), anyosFabricacion.random(), conductor)
     }
 

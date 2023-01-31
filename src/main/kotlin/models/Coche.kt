@@ -6,7 +6,7 @@ class Coche (
     val matricula: String,
     val marca: String,
     val anyoFabricacion: Int,
-    val propietario: Conductor
+    var propietario: Conductor?
 ) {
     val id = UUID.randomUUID()
 

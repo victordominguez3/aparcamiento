@@ -2,7 +2,6 @@ package factories
 
 import Aparcamiento.agregarItem
 import Aparcamiento.itemExiste
-import models.Coche
 import models.Conductor
 
 object ConductoresFactory {
@@ -43,19 +42,19 @@ object ConductoresFactory {
         "Quintana",
         "Pérez"
     )
-    val rangoCoches = 1..3 // Cuando creamos un conductor, puede tener de 1 a 3 coches
+    val rangoCoches = 1..3 // Cuando creamos un conductor, puede tener de 1 a 3 coches como máximo
     var dnis = Array<String> (0) { "" }
 
 
     fun crearConductor(): Conductor {
         val conductor = Conductor(nombres.random(), apellidos.random(), generarDniRandom(), rangoCoches.random())
-        for (i in 0 until conductor.cochesEnPropiedad.size) {
-            conductor.cochesEnPropiedad[i] = CochesFactory.crearCoche(conductor)
+        for (i in 0 until conductor.cochesEnParking.size) {
+            conductor.cochesEnParking[i] = CochesFactory.crearCoche(conductor)
         }
         return conductor
     }
 
-    private fun generarDniRandom(): String {
+    fun generarDniRandom(): String {
 
         var dni = ""
 
