@@ -14,7 +14,12 @@ class Coche (
         return "Coche -> id: $id, matricula: $matricula, marca: $marca, año de fabricación: $anyoFabricacion, dueño: $propietario"
     }
 
+//    override fun equals(other: Any?): Boolean {
+//
+//        if (this === other)
+//    }
+
     fun hacerSonarMotor() {
-        println("Coche con matricula $matricula hace BRUUUUM BRUUUUM")
+        println("\nCoche $marca con matricula $matricula hace BRUUUUM BRUUUUM")
     }
 }

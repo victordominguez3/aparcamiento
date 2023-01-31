@@ -16,7 +16,7 @@ object Aparcamiento {
     val parking = crearParking(listaCoches)
     var recaudacion = 0.0
 
-    fun crearParking(listaCoches: Array<Coche?>): Array<Array<Coche?>> {
+    private fun crearParking(listaCoches: Array<Coche?>): Array<Array<Coche?>> {
 
         val parking = Array(5) { Array<Coche?>(8) { null } }
         var randI = -1
@@ -222,6 +222,7 @@ object Aparcamiento {
 
         } while (resp == "")
 
+        coche?.hacerSonarMotor()
         println("\nCoche aparcado en $resp")
     }
 
@@ -329,6 +330,7 @@ object Aparcamiento {
                 }
             }
             coche.propietario!!.cochesEnParking = arrayCoches
+            coche.hacerSonarMotor()
             println("\nEl coche ha sido sacado con éxito")
 
             if (coche.propietario!!.numCoches == 0) {
