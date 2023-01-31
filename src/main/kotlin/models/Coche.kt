@@ -11,7 +11,7 @@ class Coche (
     val id = UUID.randomUUID()
 
     override fun toString(): String {
-        return "Coche -> id: $id, matricula: $matricula, marca: $marca, año de fabricación: $anyoFabricacion"
+        return "Coche -> id: $id, matricula: $matricula, marca: $marca, año de fabricación: $anyoFabricacion, dueño: $propietario"
     }
 
     fun hacerSonarMotor() {

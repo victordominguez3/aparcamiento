@@ -1,14 +1,18 @@
+import factories.CochesFactory
 import factories.ConductoresFactory
 import models.Coche
 
+const val PRECIO_PARKING = 3.75
+
 fun main() {
 
-    val clientes = Aparcamiento.crearListaClientesInicial()
+    var listaClientes = Aparcamiento.crearListaClientesInicial()
 
-    for (i in clientes) {
-        println(i)
-        println(i.cochesEnPropiedad.contentDeepToString())
-    }
+    Aparcamiento.imprimirListaClientes(listaClientes)
+
+    println(CochesFactory.matriculas.contentToString())
+    println(ConductoresFactory.dnis.contentToString())
+
 }
 
 //    aparcar -> si está lleno no

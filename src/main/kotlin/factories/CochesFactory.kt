@@ -1,5 +1,7 @@
 package factories
 
+import Aparcamiento
+import Aparcamiento.itemExiste
 import models.Coche
 import models.Conductor
 
@@ -14,7 +16,7 @@ object CochesFactory {
         "Volkswagen",
         "BMW",
         "Audi",
-        "Peougeot",
+        "Peugeot",
         "Citroen",
         "Porsche",
         "Ferrari",
@@ -23,9 +25,11 @@ object CochesFactory {
         "Suzuki",
         "Fiat",
         "Skoda",
-        "Dacia"
+        "Dacia",
+        "Twingo"
     )
     val anyosFabricacion = 1990..2022
+    var matriculas = Array<String> (0) { "" }
 
     fun crearCoche(conductor: Conductor): Coche {
         return Coche(generarMatriculaRandom(), marcas.random(), anyosFabricacion.random(), conductor)
@@ -35,9 +39,15 @@ object CochesFactory {
 
         var matricula = ""
 
-        repeat(4) { matricula += (0..9).random() }
-        repeat(3) { matricula += (65..90).random().toChar() }
+        do {
+            repeat(4) { matricula += (0..9).random() }
+            repeat(3) { matricula += (65..90).random().toChar() }
+        } while (itemExiste(matricula))
+
+        Aparcamiento.agregarItem(matricula)
 
         return matricula
     }
+
+
 }

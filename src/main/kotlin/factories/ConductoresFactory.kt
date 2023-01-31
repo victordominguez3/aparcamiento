@@ -1,5 +1,7 @@
 package factories
 
+import Aparcamiento.agregarItem
+import Aparcamiento.itemExiste
 import models.Coche
 import models.Conductor
 
@@ -42,6 +44,8 @@ object ConductoresFactory {
         "Pérez"
     )
     val rangoCoches = 1..3 // Cuando creamos un conductor, puede tener de 1 a 3 coches
+    var dnis = Array<String> (0) { "" }
+
 
     fun crearConductor(): Conductor {
         val conductor = Conductor(nombres.random(), apellidos.random(), generarDniRandom(), rangoCoches.random())
@@ -55,8 +59,12 @@ object ConductoresFactory {
 
         var dni = ""
 
-        repeat(8) { dni += (1..9).random().toString() }
-        dni += (65..90).random().toChar()
+        do {
+            repeat(8) { dni += (1..9).random().toString() }
+            dni += (65..90).random().toChar()
+        } while (itemExiste(dni))
+
+        agregarItem(dni)
 
         return dni
     }
