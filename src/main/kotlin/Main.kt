@@ -1,3 +1,7 @@
+import Aparcamiento.crearListaClientesInicial
+import Aparcamiento.crearListaCoches
+import Aparcamiento.crearParking
+import Aparcamiento.imprimirParking
 import factories.CochesFactory
 import factories.ConductoresFactory
 import models.Coche
@@ -6,7 +10,18 @@ const val PRECIO_PARKING = 3.75
 
 fun main() {
 
-    var listaClientes = Aparcamiento.crearListaClientesInicial()
+    var listaClientes = crearListaClientesInicial()
+    var listaCoches = crearListaCoches(listaClientes)
+    var parking = crearParking(listaCoches)
+
+    imprimirParking(parking)
+    for (i in listaCoches){
+        println(i)
+    }
+
+
+
+
 
     Aparcamiento.imprimirListaClientes(listaClientes)
 

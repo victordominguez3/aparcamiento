@@ -5,12 +5,68 @@ import models.Conductor
 
 object Aparcamiento {
 
-    fun crearParking(): Array<Array<Coche?>> {
-        return Array(5) { Array(8) { null } }
+    var recaudacion = 0
+
+    fun crearParking(listaCoches: Array<Coche?>): Array<Array<Coche?>> {
+
+        val parking = Array(5) { Array<Coche?>(8) { null } }
+        var randI = -1
+        var randJ = -1
+
+        for (i in listaCoches) {
+            do {
+                randI = (0 until 5).random()
+                randJ = (0 until 8).random()
+                if (parking[randI][randJ] == null) {
+                    parking[randI][randJ] = i
+                } else randI = -1
+            } while (randI == -1)
+        }
+
+        return parking
+    }
+
+    fun imprimirParking(parking: Array<Array<Coche?>>) {
+
+        var char = 'A'
+
+        for (i in 0 until parking[0].size) {
+            print(" 1 \t")
+        }
+
+        println()
+
+        for (i in parking.indices) {
+            print("$char\t")
+            char++
+            for (j in parking[i].indices) {
+                if (parking[i][j] is Coche) {
+                    print("[C]\t")
+                } else print("[ ]\t")
+            }
+            println()
+
+        }
+
     }
 
     fun crearListaClientesInicial(): Array<Conductor> {
-        return Array(10) { ConductoresFactory.crearConductor() }
+        return Array<Conductor>(10) { ConductoresFactory.crearConductor() }
+    }
+
+    fun crearListaCoches(listaClientes: Array<Conductor>): Array<Coche?> {
+
+        val listaCoches = Array<Coche?>(numCoches(listaClientes)) { null }
+        var cont = 0
+
+        for (i in listaClientes.indices) {
+            for (j in listaClientes[i].cochesEnPropiedad) {
+                listaCoches[cont] = j
+                cont++
+            }
+        }
+
+        return listaCoches
     }
 
     fun imprimirListaClientes(lista: Array<Conductor>) {
@@ -59,6 +115,16 @@ object Aparcamiento {
 
             ConductoresFactory.dnis = arrayConNuevoItem
         }
+    }
+
+    fun numCoches(listaClientes: Array<Conductor>): Int {
+        var coches = 0
+
+        for (i in listaClientes) {
+            coches += i.numCoches
+        }
+
+        return coches
     }
 
 }
