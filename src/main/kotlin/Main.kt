@@ -1,9 +1,11 @@
-import Aparcamiento.aparcarCoche
+import Aparcamiento.menuAparcarCoche
 import Aparcamiento.comprobarSitio
-import Aparcamiento.imprimirListaClientes
-import Aparcamiento.imprimirListaCoches
+import Aparcamiento.imprimirLista
 import Aparcamiento.imprimirListaCompleta
 import Aparcamiento.imprimirParking
+import Aparcamiento.listaClientes
+import Aparcamiento.listaCoches
+import Aparcamiento.menuOrdenCoches
 import Aparcamiento.parking
 import Aparcamiento.recaudacion
 import Aparcamiento.sacarCoche
@@ -11,7 +13,7 @@ import Aparcamiento.sacarCoche
 fun main() {
 
     var resp: String
-    val respRegex = Regex("[1-8]")
+    val respRegex = Regex("[1-9]")
 
     do {
         imprimirParking(parking)
@@ -19,11 +21,12 @@ fun main() {
         println("\n1.\tVer lista de clientes y sus coches")
         println("2.\tVer lista de clientes")
         println("3.\tVer lista de coches")
-        println("4.\tVer recaudación actual del parking")
-        println("5.\tAparcar un coche")
-        println("6.\tSacar un coche")
-        println("7.\tComprobar datos de un sitio")
-        println("8.\tSalir")
+        println("4.\tVer lista de coches ordenada")
+        println("5.\tVer recaudación actual del parking")
+        println("6.\tAparcar un coche")
+        println("7.\tSacar un coche")
+        println("8.\tComprobar datos de un sitio")
+        println("9.\tSalir")
 
         print("\nSeleccione una acción: ")
         resp = readln()
@@ -34,17 +37,18 @@ fun main() {
 
         when (resp) {
             "1" -> imprimirListaCompleta()
-            "2" -> imprimirListaClientes()
-            "3" -> imprimirListaCoches()
-            "4" -> println("\nSe han recaudado $recaudacion€")
-            "5" -> aparcarCoche()
-            "6" -> sacarCoche()
-            "7" -> comprobarSitio()
+            "2" -> imprimirLista(listaClientes as Array<Any?>)
+            "3" -> imprimirLista(listaCoches as Array<Any?>)
+            "4" -> menuOrdenCoches()
+            "5" -> println("\nSe han recaudado $recaudacion€")
+            "6" -> menuAparcarCoche()
+            "7" -> sacarCoche()
+            "8" -> comprobarSitio()
         }
 
-    } while (resp != "8")
+    } while (resp != "9")
 
-    println("Cerrando programa...")
+    println("\nCerrando programa...")
 
 }
 

@@ -92,10 +92,10 @@ object Aparcamiento {
         return listaCoches
     }
 
-    fun imprimirListaClientes() {
+    fun imprimirLista(lista: Array<Any?>) {
         println()
-        for (i in listaClientes.indices) {
-            println("${i+1}. ${listaClientes[i]}")
+        for (i in lista.indices) {
+            println("${i+1}. ${lista[i]}")
         }
     }
 
@@ -110,20 +110,100 @@ object Aparcamiento {
 
     }
 
-    fun imprimirListaCoches() {
-        println()
-        for (i in listaCoches.indices) {
-            println("${i+1}. ${listaCoches[i]}")
+    fun menuOrdenCoches() {
+        var resp: String
+        val respRegex = Regex("[1-5]")
+
+        println("\n1. Ordenar por matrícula de menor a mayor")
+        println("2. Ordenar por matrícula de mayor a menor")
+        println("3. Ordenar por año de fabricación de menor a mayor")
+        println("4. Ordenar por año de fabricación de mayor a menor")
+        println("5. Volver atrás")
+
+        print("\nSeleccione una acción: ")
+        resp = readln()
+        while (!respRegex.matches(resp)) {
+            print("Seleccione una acción válida: ")
+            resp = readln()
         }
+
+        when (resp) {
+            "1" -> imprimirLista(ordenarLista(1) as Array<Any?>)
+            "2" -> imprimirLista(ordenarLista(1).reversedArray() as Array<Any?>)
+            "3" -> imprimirLista(ordenarLista(2) as Array<Any?>)
+            "4" -> imprimirLista(ordenarLista(2).reversedArray() as Array<Any?>)
+        }
+    }
+
+    private fun ordenarLista(num: Int): Array<Coche?> {
+
+        val listaOrdenada = listaCoches
+        var min = 0
+        var guardar: Coche?
+
+        if (num == 1) {
+
+            for (i in 0 until listaOrdenada.size - 1) {
+                min = i
+                for (j in i+1 until listaOrdenada.size) {
+                    if (listaOrdenada[j]!!.matricula[4] < listaOrdenada[min]!!.matricula[4]) {
+                        min = j
+                    } else if (listaOrdenada[j]!!.matricula[4] == listaOrdenada[min]!!.matricula[4]) {
+                        if (listaOrdenada[j]!!.matricula[5] < listaOrdenada[min]!!.matricula[5]) {
+                            min = j
+                        } else if (listaOrdenada[j]!!.matricula[5] == listaOrdenada[min]!!.matricula[5]) {
+                            if (listaOrdenada[j]!!.matricula[6] < listaOrdenada[min]!!.matricula[6]) {
+                                min = j
+                            } else if (listaOrdenada[j]!!.matricula[6] == listaOrdenada[min]!!.matricula[6]) {
+                                if (listaOrdenada[j]!!.matricula[0] < listaOrdenada[min]!!.matricula[0]) {
+                                    min = j
+                                } else if (listaOrdenada[j]!!.matricula[0] == listaOrdenada[min]!!.matricula[0]) {
+                                    if (listaOrdenada[j]!!.matricula[1] < listaOrdenada[min]!!.matricula[1]) {
+                                        min = j
+                                    } else if (listaOrdenada[j]!!.matricula[1] == listaOrdenada[min]!!.matricula[1]) {
+                                        if (listaOrdenada[j]!!.matricula[2] < listaOrdenada[min]!!.matricula[2]) {
+                                            min = j
+                                        } else if (listaOrdenada[j]!!.matricula[2] == listaOrdenada[min]!!.matricula[2]) {
+                                            if (listaOrdenada[j]!!.matricula[3] < listaOrdenada[min]!!.matricula[3]) {
+                                                min = j
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                guardar = listaOrdenada[i]
+                listaOrdenada[i] = listaOrdenada[min]
+                listaOrdenada[min] = guardar
+            }
+        }
+        if (num == 2) {
+
+            for (i in 0 until listaOrdenada.size - 1) {
+                min = i
+                for (j in i+1 until listaOrdenada.size) {
+                    if (listaOrdenada[j]!!.anyoFabricacion < listaOrdenada[min]!!.anyoFabricacion) {
+                        min = j
+                    }
+                }
+                guardar = listaOrdenada[i]
+                listaOrdenada[i] = listaOrdenada[min]
+                listaOrdenada[min] = guardar
+            }
+        }
+
+        return listaOrdenada
     }
 
     fun itemExiste(item: String): Boolean {
 
-        if (item.length == 7) {
+        if (item.length == 7) { // Siete caracteres indican que es una matrícula
             for (i in CochesFactory.matriculas) {
                 if (item == i) return true
             }
-        } else if (item.length == 9) {
+        } else if (item.length == 9) { // Nueve caracteres indican que es un dni
             for (i in ConductoresFactory.dnis) {
                 if (item == i) return true
             }
@@ -133,7 +213,7 @@ object Aparcamiento {
 
     fun agregarItem(item: String) {
 
-        if (item.length == 7) {
+        if (item.length == 7) { // Siete caracteres indican que es una matrícula
             val arrayConNuevoItem = Array<String>(CochesFactory.matriculas.size + 1) { "" }
 
             for (i in CochesFactory.matriculas.indices) {
@@ -142,7 +222,7 @@ object Aparcamiento {
             arrayConNuevoItem[arrayConNuevoItem.size - 1] = item
 
             CochesFactory.matriculas = arrayConNuevoItem
-        } else if (item.length == 9) {
+        } else if (item.length == 9) { // Nueve caracteres indican que es un dni
             val arrayConNuevoItem = Array<String>(ConductoresFactory.dnis.size + 1) { "" }
 
             for (i in ConductoresFactory.dnis.indices) {
@@ -164,7 +244,7 @@ object Aparcamiento {
         return coches
     }
 
-    fun aparcarCoche() {
+    fun menuAparcarCoche() {
 
         var resp: String
         val respRegex = Regex("[1-3]")
@@ -201,7 +281,7 @@ object Aparcamiento {
     private fun aparcar(conductor: Conductor) {
 
         var resp: String
-        var tam = conductor.cochesEnParking.size
+        val tam = conductor.cochesEnParking.size
 
         do {
             resp = elegirSitio()
@@ -216,7 +296,7 @@ object Aparcamiento {
         } while (resp == "")
 
         conductor.cochesEnParking[tam - 1]!!.hacerSonarMotor()
-        println("\nCoche aparcado en $resp")
+        println("Coche aparcado en $resp")
     }
 
     private fun elegirSitio(): String {
@@ -232,31 +312,6 @@ object Aparcamiento {
         }
 
         return resp
-    }
-
-    private fun elegirSitio2(coche: Coche?) {
-        var resp: String
-        val respRegex = Regex("[A-E][1-8]")
-
-        do {
-            print("\nSeleccione el sitio en el que desea aparcar el coche (Ejemplo -> A1, B2): ")
-            resp = readln().uppercase()
-            while (!respRegex.matches(resp)) {
-                print("Seleccione un sitio válido: ")
-                resp = readln().uppercase()
-            }
-            if (!existeCoche(resp)) {
-                parking[resp[0].code-65][resp[1].code-49] = coche
-                agregarCoche(coche)
-            } else {
-                println("\nYa hay un coche aparcado")
-                resp = ""
-            }
-
-        } while (resp == "")
-
-        coche?.hacerSonarMotor()
-        println("Coche aparcado en $resp")
     }
 
     private fun existeCoche(sitio: String): Boolean {
@@ -305,7 +360,6 @@ object Aparcamiento {
 
         elegirSitio()
         aparcar(conductor)
-
     }
 
     private fun elegirCliente(): Conductor? {
@@ -360,7 +414,7 @@ object Aparcamiento {
             val coche = elegirCoche()
             val arrayCoches = Array<Coche?>(coche!!.propietario!!.numCoches - 1) {null}
 
-            for (i in coche!!.propietario!!.cochesEnParking) {
+            for (i in coche.propietario!!.cochesEnParking) {
                 if (i != coche) {
                     arrayCoches[cont] = i
                     cont++
@@ -368,7 +422,7 @@ object Aparcamiento {
             }
             coche.propietario!!.cochesEnParking = arrayCoches
             coche.hacerSonarMotor()
-            println("\nEl coche ha sido sacado con éxito")
+            println("El coche ha sido sacado con éxito")
 
             coche.propietario!!.numCoches--
 
@@ -376,21 +430,17 @@ object Aparcamiento {
                 eliminarCliente(coche.propietario)
             }
             coche.propietario = null
+            eliminarCoche(coche)
         } else println("\nEl parking esta vacío, no hay coches que sacar")
     }
 
     private fun elegirCoche(): Coche? {
         var coche: Coche? = null
         var resp: String
-        val respRegex = Regex("[A-E][1-8]")
 
         do {
-            print("\nSeleccione el coche que desea sacar (Ejemplo -> A1, B2): ")
-            resp = readln().uppercase()
-            while (!respRegex.matches(resp)) {
-                print("Seleccione un sitio válido: ")
-                resp = readln().uppercase()
-            }
+            resp = elegirSitio()
+
             if (existeCoche(resp)) {
                 coche = parking[resp[0].code-65][resp[1].code-49]
                 parking[resp[0].code-65][resp[1].code-49] = null
@@ -403,6 +453,20 @@ object Aparcamiento {
         } while (resp == "")
 
         return coche
+    }
+
+    private fun eliminarCoche(coche: Coche) {
+        val array = Array<Coche?>(listaCoches.size - 1) {null}
+        var cont = 0
+
+        for (i in listaCoches) {
+            if (i != coche) {
+                array[cont] = i
+                cont++
+            }
+        }
+
+        listaCoches = array
     }
 
     private fun eliminarCliente(cliente: Conductor?) {
@@ -420,15 +484,8 @@ object Aparcamiento {
     }
 
     fun comprobarSitio() {
-        var resp: String
-        val respRegex = Regex("[A-E][1-8]")
 
-        print("\nSeleccione el sitio que desea comprobar (Ejemplo -> A1, B2): ")
-        resp = readln().uppercase()
-        while (!respRegex.matches(resp)) {
-            print("Seleccione un sitio válido: ")
-            resp = readln().uppercase()
-        }
+        val resp: String = elegirSitio()
 
         if (parking[resp[0].code-65][resp[1].code-49] is Coche) {
             println("\nLa plaza esta ocupada por -> ${parking[resp[0].code - 65][resp[1].code - 49]}")
