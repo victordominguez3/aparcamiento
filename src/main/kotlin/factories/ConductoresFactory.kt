@@ -46,12 +46,16 @@ object ConductoresFactory {
     var dnis = Array<String> (0) { "" }
 
 
-    fun crearConductor(): Conductor {
+    fun crearConductorInicial(): Conductor {
         val conductor = Conductor(nombres.random(), apellidos.random(), generarDniRandom(), rangoCoches.random())
         for (i in 0 until conductor.cochesEnParking.size) {
             conductor.cochesEnParking[i] = CochesFactory.crearCoche(conductor)
         }
         return conductor
+    }
+
+    fun crearConductorNuevo(): Conductor {
+        return Conductor(nombres.random(), apellidos.random(), generarDniRandom(), 1)
     }
 
     fun generarDniRandom(): String {

@@ -1,9 +1,7 @@
 import factories.CochesFactory
 import factories.CochesFactory.crearCoche
 import factories.ConductoresFactory
-import factories.ConductoresFactory.apellidos
-import factories.ConductoresFactory.generarDniRandom
-import factories.ConductoresFactory.nombres
+import factories.ConductoresFactory.crearConductorNuevo
 import models.Coche
 import models.Conductor
 
@@ -76,7 +74,7 @@ object Aparcamiento {
     }
 
     fun crearListaClientesInicial(): Array<Conductor?> {
-        return Array<Conductor?>(10) { ConductoresFactory.crearConductor() }
+        return Array<Conductor?>(10) { ConductoresFactory.crearConductorInicial() }
     }
 
     fun crearListaCoches(listaClientes: Array<Conductor?>): Array<Coche?> {
@@ -192,16 +190,51 @@ object Aparcamiento {
 
     private fun aparcaNuevoCliente() {
 
-        val conductor = Conductor(nombres.random(), apellidos.random(), generarDniRandom(), 1)
+        val conductor = crearConductorNuevo()
 
         agregarCliente(conductor)
-
         conductor.cochesEnParking[0] = crearCoche(conductor)
 
-        elegirSitio(conductor.cochesEnParking[0])
+        aparcar(conductor)
     }
 
-    private fun elegirSitio(coche: Coche?) {
+    private fun aparcar(conductor: Conductor) {
+
+        var resp: String
+        var tam = conductor.cochesEnParking.size
+
+        do {
+            resp = elegirSitio()
+
+            if (!existeCoche(resp)) {
+                parking[resp[0].code - 65][resp[1].code - 49] = conductor.cochesEnParking[tam - 1]
+                agregarCoche(conductor.cochesEnParking[tam - 1])
+            } else {
+                println("\nYa hay un coche aparcado")
+                resp = ""
+            }
+        } while (resp == "")
+
+        conductor.cochesEnParking[tam - 1]!!.hacerSonarMotor()
+        println("\nCoche aparcado en $resp")
+    }
+
+    private fun elegirSitio(): String {
+
+        var resp: String
+        val respRegex = Regex("[A-E][1-8]")
+
+        print("\nSeleccione un sitio (Ejemplo -> A1, B2): ")
+        resp = readln().uppercase()
+        while (!respRegex.matches(resp)) {
+            print("Seleccione un sitio válido: ")
+            resp = readln().uppercase()
+        }
+
+        return resp
+    }
+
+    private fun elegirSitio2(coche: Coche?) {
         var resp: String
         val respRegex = Regex("[A-E][1-8]")
 
@@ -223,7 +256,7 @@ object Aparcamiento {
         } while (resp == "")
 
         coche?.hacerSonarMotor()
-        println("\nCoche aparcado en $resp")
+        println("Coche aparcado en $resp")
     }
 
     private fun existeCoche(sitio: String): Boolean {
@@ -262,16 +295,17 @@ object Aparcamiento {
         val coche = crearCoche(conductor)
         val arrayCocheNuevo = Array<Coche?>(conductor!!.numCoches + 1) {null}
 
-        if (!parkingLleno()) {
-            for (i in conductor.cochesEnParking.indices) {
-                arrayCocheNuevo[i] = conductor.cochesEnParking[i]
-            }
+        for (i in conductor.cochesEnParking.indices) {
+            arrayCocheNuevo[i] = conductor.cochesEnParking[i]
+        }
 
-            arrayCocheNuevo[arrayCocheNuevo.size - 1] = coche
-            conductor.cochesEnParking = arrayCocheNuevo
-            elegirSitio(coche)
-            conductor.numCoches++
-        } else println("\nEl parking está lleno, espere a que salga algún coche")
+        arrayCocheNuevo[arrayCocheNuevo.size - 1] = coche
+        conductor.cochesEnParking = arrayCocheNuevo
+        conductor.numCoches++
+
+        elegirSitio()
+        aparcar(conductor)
+
     }
 
     private fun elegirCliente(): Conductor? {
@@ -318,12 +352,15 @@ object Aparcamiento {
     }
 
     fun sacarCoche() {
-        val coche = elegirCoche()
-        val arrayCoches = Array<Coche?>(coche!!.propietario!!.numCoches - 1) {null}
+
         var cont = 0
 
         if (!parkingVacio()) {
-            for (i in coche.propietario!!.cochesEnParking) {
+
+            val coche = elegirCoche()
+            val arrayCoches = Array<Coche?>(coche!!.propietario!!.numCoches - 1) {null}
+
+            for (i in coche!!.propietario!!.cochesEnParking) {
                 if (i != coche) {
                     arrayCoches[cont] = i
                     cont++
@@ -333,10 +370,11 @@ object Aparcamiento {
             coche.hacerSonarMotor()
             println("\nEl coche ha sido sacado con éxito")
 
+            coche.propietario!!.numCoches--
+
             if (coche.propietario!!.numCoches == 0) {
                 eliminarCliente(coche.propietario)
             }
-            coche.propietario!!.numCoches--
             coche.propietario = null
         } else println("\nEl parking esta vacío, no hay coches que sacar")
     }
@@ -348,10 +386,10 @@ object Aparcamiento {
 
         do {
             print("\nSeleccione el coche que desea sacar (Ejemplo -> A1, B2): ")
-            resp = readln()
+            resp = readln().uppercase()
             while (!respRegex.matches(resp)) {
                 print("Seleccione un sitio válido: ")
-                resp = readln()
+                resp = readln().uppercase()
             }
             if (existeCoche(resp)) {
                 coche = parking[resp[0].code-65][resp[1].code-49]
@@ -386,10 +424,10 @@ object Aparcamiento {
         val respRegex = Regex("[A-E][1-8]")
 
         print("\nSeleccione el sitio que desea comprobar (Ejemplo -> A1, B2): ")
-        resp = readln()
+        resp = readln().uppercase()
         while (!respRegex.matches(resp)) {
             print("Seleccione un sitio válido: ")
-            resp = readln()
+            resp = readln().uppercase()
         }
 
         if (parking[resp[0].code-65][resp[1].code-49] is Coche) {
@@ -423,7 +461,6 @@ object Aparcamiento {
 //PROYECTO PROGRAMACION FUNCIONAL
 
 //Hacer clase fraccion y clase complejo y clase vector en 3D, arrays, in -> ALGEBRA
-
     //fracciones: igualdad, suma, resta, multiplicacion, division
     //complejo: suma resta conjugado multiplicacion division
     //vector: suma, resta
