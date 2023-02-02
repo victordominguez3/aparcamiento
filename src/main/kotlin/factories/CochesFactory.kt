@@ -31,9 +31,20 @@ object CochesFactory {
     val anyosFabricacion = 1990..2022
     var matriculas = Array<String> (0) { "" }
 
+    /**
+     * Función que crea un coche y lo asigna a un conductor
+     * @param conductor Conductor?
+     * @return Coche
+     */
+
     fun crearCoche(conductor: Conductor?): Coche {
         return Coche(generarMatriculaRandom(), marcas.random(), anyosFabricacion.random(), conductor)
     }
+
+    /**
+     * Función que genera una matrícula aleatoria
+     * @return matrícula - String
+     */
 
     private fun generarMatriculaRandom(): String {
 

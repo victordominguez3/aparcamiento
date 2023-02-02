@@ -45,6 +45,10 @@ object ConductoresFactory {
     val rangoCoches = 1..3 // Cuando creamos un conductor, puede tener de 1 a 3 coches como máximo
     var dnis = Array<String> (0) { "" }
 
+    /**
+     * Función que crea un conductor aleatorio inicial
+     * @return Conductor
+     */
 
     fun crearConductorInicial(): Conductor {
         val conductor = Conductor(nombres.random(), apellidos.random(), generarDniRandom(), rangoCoches.random())
@@ -54,9 +58,19 @@ object ConductoresFactory {
         return conductor
     }
 
+    /**
+     * Función que crea un conductor nuevo
+     * @return Conductor
+     */
+
     fun crearConductorNuevo(): Conductor {
         return Conductor(nombres.random(), apellidos.random(), generarDniRandom(), 1)
     }
+
+    /**
+     * Función que genera un DNI aleatorio
+     * @return dni - String
+     */
 
     fun generarDniRandom(): String {
 

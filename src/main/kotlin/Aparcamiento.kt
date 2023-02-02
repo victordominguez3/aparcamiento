@@ -14,6 +14,12 @@ object Aparcamiento {
     val parking = crearParking(listaCoches)
     var recaudacion = 0.0
 
+    /**
+     * Función que crea el parking y lo rellena aleatoriamente con los coches de la lista
+     * @param listaCoches Array<Coche?>
+     * @return aparcamiento - Matriz de Coche?
+     */
+
     private fun crearParking(listaCoches: Array<Coche?>): Array<Array<Coche?>> {
 
         val parking = Array(5) { Array<Coche?>(8) { null } }
@@ -34,6 +40,11 @@ object Aparcamiento {
 
         return parking
     }
+
+    /**
+     * Función que muestra por pantalla el parking
+     * @param parking Matriz de Coche?
+     */
 
     fun imprimirParking(parking: Array<Array<Coche?>>) {
 
@@ -76,9 +87,20 @@ object Aparcamiento {
         }
     }
 
+    /**
+     * Función que crea la lista inicial de clientes
+     * @return listaClientes - Array<Conductor?>
+     */
+
     private fun crearListaClientesInicial(): Array<Conductor?> {
         return Array<Conductor?>(10) { ConductoresFactory.crearConductorInicial() }
     }
+
+    /**
+     * Función que crea la lista de coches
+     * @param listaClientes Array<Conductor?>
+     * @return listaCoches - Array<Coche?>
+     */
 
     private fun crearListaCoches(listaClientes: Array<Conductor?>): Array<Coche?> {
 
@@ -95,12 +117,21 @@ object Aparcamiento {
         return listaCoches
     }
 
+    /**
+     * Función que imprime una lista
+     * @param lista Array<Any?>
+     */
+
     fun imprimirLista(lista: Array<Any?>) {
         println()
         for (i in lista.indices) {
             println("${i+1}. ${lista[i]}")
         }
     }
+
+    /**
+     * Función que imprime la lista de clientes junto a sus respectivos coches
+     */
 
     fun imprimirListaCompleta() {
         println()
@@ -112,6 +143,10 @@ object Aparcamiento {
         }
 
     }
+
+    /**
+     * Función MENU para elegir en que orden queremos ver la lista de coches
+     */
 
     fun menuOrdenCoches() {
         var resp: String
@@ -140,6 +175,10 @@ object Aparcamiento {
         } while (resp != "5")
     }
 
+    /**
+     * Función MENU para elegir los datos que queremos ver sobre las plazas
+     */
+
     fun menuDatosSitios() {
 
         var resp: String
@@ -165,6 +204,12 @@ object Aparcamiento {
             }
         } while (resp != "4")
     }
+
+    /**
+     * Función que ordena la lista de coches de menor a mayor por matrícula o año de fabricación
+     * @param numero Int (1 = ordenar por matrículas, 2 = ordenar por año de fabricación
+     * @return Array<Coche?>
+     */
 
     private fun ordenarLista(num: Int): Array<Coche?> {
 
@@ -228,6 +273,12 @@ object Aparcamiento {
         return listaOrdenada
     }
 
+    /**
+     * Función que nos dice si una matrícula o dni ya existe
+     * @param item String
+     * @return Boolean (True = existe el item, False = no existe el item)
+     */
+
     fun itemExiste(item: String): Boolean {
 
         if (item.length == 7) { // Siete caracteres indican que es una matrícula
@@ -241,6 +292,11 @@ object Aparcamiento {
         }
         return false
     }
+
+    /**
+     * Función que agrega una matrícula o dni a una lista para registrarla
+     * @param item String
+     */
 
     fun agregarItem(item: String) {
 
@@ -265,6 +321,12 @@ object Aparcamiento {
         }
     }
 
+    /**
+     * Función que nos devuelve el número de coches que hay en el parking
+     * @param listaClientes Array<Conductor?>
+     * @return Int
+     */
+
     private fun numCoches(listaClientes: Array<Conductor?>): Int {
         var coches = 0
 
@@ -274,6 +336,10 @@ object Aparcamiento {
 
         return coches
     }
+
+    /**
+     * Función MENU para elegir quien va a aparcar
+     */
 
     fun menuAparcarCoche() {
 
@@ -299,6 +365,10 @@ object Aparcamiento {
         } else println("\nEl parking está lleno, espere a que salga algún coche")
     }
 
+    /**
+     * Función que crea un nuevo conductor con un coche y lo aparca en el parking
+     */
+
     private fun aparcaNuevoCliente() {
 
         val conductor = crearConductorNuevo()
@@ -308,6 +378,11 @@ object Aparcamiento {
 
         aparcar(conductor)
     }
+
+    /**
+     * Función que aparca un coche en el parking
+     * @param conductor Conductor
+     */
 
     private fun aparcar(conductor: Conductor) {
 
@@ -332,6 +407,11 @@ object Aparcamiento {
         conductor.cochesEnParking[tam - 1]!!.plaza = resp
     }
 
+    /**
+     * Función que retorna una cadena con la plaza del parking
+     * @return String
+     */
+
     private fun elegirSitio(): String {
 
         var resp: String
@@ -347,12 +427,23 @@ object Aparcamiento {
         return resp
     }
 
+    /**
+     * Función que nos dice si existe un coche en una plaza dada
+     * @param sitio String
+     * @return Boolean (True = Existe un coche, False = No existe coche)
+     */
+
     private fun existeCoche(sitio: String): Boolean {
         if (parking[sitio[0].code-65][sitio[1].code-49] is Coche) {
             return true
         }
         return false
     }
+
+    /**
+     * Función que añade un nuevo cliente a la lista de clientes
+     * @param conductor Conductor
+     */
 
     private fun agregarCliente(conductor: Conductor) {
         val listaNuevoCliente = Array<Conductor?>(listaClientes.size + 1) { null }
@@ -364,6 +455,11 @@ object Aparcamiento {
 
         listaClientes = listaNuevoCliente
     }
+
+    /**
+     * Función que añade un coche a la lista de coches
+     * @param coche Coche
+     */
 
     private fun agregarCoche(coche: Coche?) {
         val listaNuevoCoche = Array<Coche?>(listaCoches.size + 1) { null }
@@ -377,6 +473,10 @@ object Aparcamiento {
 
         recaudacion += PRECIO_PARKING
     }
+
+    /**
+     * Función que aparca en el parking un coche nuevo de un cliente existente
+     */
 
     private fun aparcaOtroCoche() {
         val conductor = elegirCliente()
@@ -393,6 +493,11 @@ object Aparcamiento {
 
         aparcar(conductor)
     }
+
+    /**
+     * Función para seleccionar un cliente con menos de tres coches
+     * @return Conductor?
+     */
 
     private fun elegirCliente(): Conductor? {
 
@@ -415,6 +520,11 @@ object Aparcamiento {
         return arrayClientesSeleccionados[resp.toInt() - 1]
     }
 
+    /**
+     * Función que nos devuelve una lista con los clientes con menos de tres coches
+     * @return Array<Conductor?>
+     */
+
     private fun clientesConMenosTresCoches(): Array<Conductor?> {
 
         var cont = 0
@@ -436,6 +546,10 @@ object Aparcamiento {
 
         return array
     }
+
+    /**
+     * Función que saca un coche del parking
+     */
 
     fun sacarCoche() {
 
@@ -467,6 +581,11 @@ object Aparcamiento {
         } else println("\nEl parking esta vacío, no hay coches que sacar")
     }
 
+    /**
+     * Función para elegir un coche del parking
+     * @return Coche?
+     */
+
     private fun elegirCoche(): Coche? {
         var coche: Coche? = null
         var resp: String
@@ -488,6 +607,11 @@ object Aparcamiento {
         return coche
     }
 
+    /**
+     * Función para eliminar un coche de la lista de coches
+     * @param coche Coche
+     */
+
     private fun eliminarCoche(coche: Coche) {
         val array = Array<Coche?>(listaCoches.size - 1) {null}
         var cont = 0
@@ -501,6 +625,11 @@ object Aparcamiento {
 
         listaCoches = array
     }
+
+    /**
+     * Función para eliminar un cliente de la lista de clientes
+     * @param cliente Conductor?
+     */
 
     private fun eliminarCliente(cliente: Conductor?) {
         val array = Array<Conductor?>(listaClientes.size - 1) {null}
@@ -516,6 +645,10 @@ object Aparcamiento {
         listaClientes = array
     }
 
+    /**
+     * Función que nos imprime por pantalla si una plaza está libre o no y su conductor
+     */
+
     fun comprobarSitio() {
 
         val resp: String = elegirSitio()
@@ -525,6 +658,11 @@ object Aparcamiento {
             println("El dueño es -> ${parking[resp[0].code - 65][resp[1].code - 49]!!.propietario}")
         } else println("\nLa plaza está libre")
     }
+
+    /**
+     * Función que nos dice el número de plazas libres en el parking
+     * @return Int
+     */
 
     private fun plazasDisponibles(): Int {
 
@@ -541,6 +679,11 @@ object Aparcamiento {
         return plazas
     }
 
+    /**
+     * Función que nos imprime por pantalla el número de plazas libres del parking
+     * @param plazas Int
+     */
+
     private fun stringPlazasDisponibles(plazas: Int) {
 
         when (plazas) {
@@ -549,6 +692,11 @@ object Aparcamiento {
             else -> println("\nQuedan $plazas plazas disponibles")
         }
     }
+
+    /**
+     * Función que nos dice el número de plazas ocupadas en el parking
+     * @return Int
+     */
 
     private fun plazasOcupadas(): Int {
 
@@ -565,6 +713,11 @@ object Aparcamiento {
         return plazas
     }
 
+    /**
+     * Función que nos imprime por pantalla el número de plazas ocupadas del parking
+     * @param plazas Int
+     */
+
     private fun stringPlazasOcupadas(plazas: Int) {
 
         when (plazas) {
@@ -573,6 +726,11 @@ object Aparcamiento {
             else -> println("\nHay $plazas plazas ocupadas")
         }
     }
+
+    /**
+     * Función que nos dice si el parking está lleno o no
+     * @return Boolean (True = está lleno, False = no está lleno)
+     */
 
     private fun parkingLleno(): Boolean {
 
@@ -584,6 +742,11 @@ object Aparcamiento {
         return true
     }
 
+    /**
+     * Función que nos dice si el parking está vacío o no
+     * @return Boolean (True = está vacío, False = no está vacío)
+     */
+
     private fun parkingVacio(): Boolean {
 
         for (i in parking.indices) {
@@ -593,6 +756,13 @@ object Aparcamiento {
         }
         return true
     }
+
+    /**
+     * Función que asigna al coche la plaza en la que aparca
+     * @param coche Coche?
+     * @param i Int
+     * @param j Int
+     */
 
     private fun asignarPlaza(coche: Coche?, i: Int, j: Int) {
 
