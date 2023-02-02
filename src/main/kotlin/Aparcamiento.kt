@@ -73,13 +73,13 @@ object Aparcamiento {
             for (j in parking[i].indices) {
                 if (parking[i][j] is Coche) {
                     if ((i == 1 || i == 3) && (j == 0 || j == 2 || j == 4 || j == 6)) {
-                        print("[${colores.morado}■${colores.reset}] ↑ | ↓ ")
+                        print("[${colores.morado}■${colores.reset}] ↓ | ↑ ")
                     } else if (j == 1 || j == 3 || j == 5 || j == 7) {
                         print("[${colores.morado}■${colores.reset}] ")
                     } else print("[${colores.morado}■${colores.reset}]   |   ")
                 } else {
                     if ((i == 1 || i == 3) && (j == 0 || j == 2 || j == 4 || j == 6)) {
-                        print("[ ] ↑ | ↓ ")
+                        print("[ ] ↓ | ↑ ")
                     } else if (j == 1 || j == 3 || j == 5 || j == 7) {
                         print("[ ] ")
                     } else print("[ ]   |   ")
