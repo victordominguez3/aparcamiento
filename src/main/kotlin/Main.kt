@@ -1,3 +1,4 @@
+import Aparcamiento.colores
 import Aparcamiento.menuAparcarCoche
 import Aparcamiento.imprimirLista
 import Aparcamiento.imprimirListaCompleta
@@ -18,20 +19,20 @@ fun main() {
     do {
         imprimirParking(parking)
         println()
-        println("\n1.\tVer lista de clientes y sus coches")
-        println("2.\tVer lista de clientes")
-        println("3.\tVer lista de coches")
-        println("4.\tVer lista de coches ordenada")
-        println("5.\tVer recaudación actual del parking")
-        println("6.\tAparcar un coche")
-        println("7.\tSacar un coche")
-        println("8.\tComprobar datos de las plazas")
-        println("9.\tSalir")
+        println("\n${colores.azul}1.${colores.reset}\tVer lista de clientes y sus coches")
+        println("${colores.azul}2.${colores.reset}\tVer lista de clientes")
+        println("${colores.azul}3.${colores.reset}\tVer lista de coches")
+        println("${colores.azul}4.${colores.reset}\tVer lista de coches ordenada")
+        println("${colores.azul}5.${colores.reset}\tVer recaudación actual del parking")
+        println("${colores.azul}6.${colores.reset}\tAparcar un coche")
+        println("${colores.azul}7.${colores.reset}\tSacar un coche")
+        println("${colores.azul}8.${colores.reset}\tComprobar datos de las plazas")
+        println("${colores.azul}9.${colores.reset}\tSalir")
 
-        print("\nSeleccione una acción: ")
+        print("\n${colores.verde}Seleccione una acción:${colores.reset} ")
         resp = readln()
         while (!respRegex.matches(resp)) {
-            print("Seleccione una acción válida: ")
+            print("${colores.rojo}Seleccione una acción válida:${colores.reset} ")
             resp = readln()
         }
 
@@ -40,7 +41,7 @@ fun main() {
             "2" -> imprimirLista(listaClientes as Array<Any?>)
             "3" -> imprimirLista(listaCoches as Array<Any?>)
             "4" -> menuOrdenCoches()
-            "5" -> println("\nSe han recaudado $recaudacion€")
+            "5" -> println("\n${colores.morado}Se han recaudado $recaudacion€${colores.reset}")
             "6" -> menuAparcarCoche()
             "7" -> sacarCoche()
             "8" -> menuDatosSitios()

@@ -1,5 +1,6 @@
 package models
 
+import Aparcamiento.colores
 import java.util.*
 
 class Coche (
@@ -12,7 +13,13 @@ class Coche (
     var plaza = ""
 
     override fun toString(): String {
-        return "Coche -> id: $id, matricula: $matricula, marca: $marca, año de fabricación: $anyoFabricacion, plaza: $plaza, dueño: $propietario"
+        return "${colores.rojo}Coche${colores.reset} -> " +
+                "${colores.morado}id:${colores.reset} $id, " +
+                "${colores.morado}matrícula:${colores.reset} $matricula, " +
+                "${colores.morado}marca:${colores.reset} $marca, " +
+                "${colores.morado}año de fabricación:${colores.reset} $anyoFabricacion, " +
+                "${colores.morado}plaza:${colores.reset} $plaza, " +
+                "${colores.morado}dueño:${colores.reset} $propietario"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -32,6 +39,6 @@ class Coche (
     }
 
     fun hacerSonarMotor() {
-        println("\nCoche $marca con matricula $matricula hace BRUUUUM BRUUUUM")
+        println("\n${colores.morado}Coche $marca con matricula $matricula hace BRUUUUM BRUUUUM${colores.reset}")
     }
 }

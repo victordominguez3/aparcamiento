@@ -47,7 +47,7 @@ object ConductoresFactory {
 
     /**
      * Función que crea un conductor aleatorio inicial
-     * @return Conductor
+     * @return conductor inicial creado
      */
 
     fun crearConductorInicial(): Conductor {
@@ -60,7 +60,7 @@ object ConductoresFactory {
 
     /**
      * Función que crea un conductor nuevo
-     * @return Conductor
+     * @return conductor creado
      */
 
     fun crearConductorNuevo(): Conductor {
@@ -69,7 +69,7 @@ object ConductoresFactory {
 
     /**
      * Función que genera un DNI aleatorio
-     * @return dni - String
+     * @return un dni aleatorio
      */
 
     fun generarDniRandom(): String {

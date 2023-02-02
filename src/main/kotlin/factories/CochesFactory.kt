@@ -33,8 +33,8 @@ object CochesFactory {
 
     /**
      * Función que crea un coche y lo asigna a un conductor
-     * @param conductor Conductor?
-     * @return Coche
+     * @param conductor el conductor del coche
+     * @return coche creado
      */
 
     fun crearCoche(conductor: Conductor?): Coche {
@@ -43,7 +43,7 @@ object CochesFactory {
 
     /**
      * Función que genera una matrícula aleatoria
-     * @return matrícula - String
+     * @return una matrícula aleatoria
      */
 
     private fun generarMatriculaRandom(): String {

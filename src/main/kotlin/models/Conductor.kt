@@ -1,5 +1,6 @@
 package models
 
+import Aparcamiento.colores
 import java.util.*
 
 class Conductor(
@@ -12,7 +13,11 @@ class Conductor(
     var cochesEnParking = Array<Coche?>(numCoches) {null}
 
     override fun toString(): String {
-        return "Persona -> id: $id, nombre: $nombre $apellido, dni: $dni, número de coches: $numCoches"
+        return "${colores.rojo}Persona${colores.reset} -> " +
+                "${colores.morado}id:${colores.reset} $id, " +
+                "${colores.morado}nombre:${colores.reset} $nombre $apellido, " +
+                "${colores.morado}dni:${colores.reset} $dni, " +
+                "${colores.morado}número de coches:${colores.reset} $numCoches"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -32,6 +37,6 @@ class Conductor(
     }
 
     fun presentarse() {
-        println("Soy $nombre $apellido, con dni: $dni")
+        println("${colores.morado}Soy $nombre $apellido, con dni: $dni${colores.reset}")
     }
 }

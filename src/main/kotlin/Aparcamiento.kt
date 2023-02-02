@@ -3,6 +3,7 @@ import factories.CochesFactory.crearCoche
 import factories.ConductoresFactory
 import factories.ConductoresFactory.crearConductorNuevo
 import models.Coche
+import models.Colores
 import models.Conductor
 
 const val PRECIO_PARKING = 3.75
@@ -13,11 +14,12 @@ object Aparcamiento {
     var listaCoches = crearListaCoches(listaClientes)
     val parking = crearParking(listaCoches)
     var recaudacion = 0.0
+    val colores = Colores()
 
     /**
      * Función que crea el parking y lo rellena aleatoriamente con los coches de la lista
-     * @param listaCoches Array<Coche?>
-     * @return aparcamiento - Matriz de Coche?
+     * @param listaCoches lista de los coches
+     * @return aparcamiento - Matriz de Coches
      */
 
     private fun crearParking(listaCoches: Array<Coche?>): Array<Array<Coche?>> {
@@ -43,7 +45,7 @@ object Aparcamiento {
 
     /**
      * Función que muestra por pantalla el parking
-     * @param parking Matriz de Coche?
+     * @param parking Matriz de Coches
      */
 
     fun imprimirParking(parking: Array<Array<Coche?>>) {
@@ -56,9 +58,9 @@ object Aparcamiento {
 
         for (i in 0 until parking[0].size) {
             when (cont) {
-                1 -> { print(" \t $cont        ") }
-                3, 5, 7 -> print(" $cont        ")
-                else -> { print(" $cont  ") }
+                1 -> { print(" \t ${colores.azul}$cont${colores.reset}        ") }
+                3, 5, 7 -> print(" ${colores.azul}$cont${colores.reset}        ")
+                else -> { print(" ${colores.azul}$cont${colores.reset}  ") }
             }
             cont++
         }
@@ -66,15 +68,15 @@ object Aparcamiento {
         println()
 
         for (i in parking.indices) {
-            print("$char\t")
+            print("${colores.azul}$char${colores.reset}\t")
             char++
             for (j in parking[i].indices) {
                 if (parking[i][j] is Coche) {
                     if ((i == 1 || i == 3) && (j == 0 || j == 2 || j == 4 || j == 6)) {
-                        print("[■] ↑ | ↓ ")
+                        print("[${colores.morado}■${colores.reset}] ↑ | ↓ ")
                     } else if (j == 1 || j == 3 || j == 5 || j == 7) {
-                        print("[■] ")
-                    } else print("[■]   |   ")
+                        print("[${colores.morado}■${colores.reset}] ")
+                    } else print("[${colores.morado}■${colores.reset}]   |   ")
                 } else {
                     if ((i == 1 || i == 3) && (j == 0 || j == 2 || j == 4 || j == 6)) {
                         print("[ ] ↑ | ↓ ")
@@ -89,7 +91,7 @@ object Aparcamiento {
 
     /**
      * Función que crea la lista inicial de clientes
-     * @return listaClientes - Array<Conductor?>
+     * @return la lista inicial de clientes
      */
 
     private fun crearListaClientesInicial(): Array<Conductor?> {
@@ -98,8 +100,8 @@ object Aparcamiento {
 
     /**
      * Función que crea la lista de coches
-     * @param listaClientes Array<Conductor?>
-     * @return listaCoches - Array<Coche?>
+     * @param listaClientes la lista de clientes
+     * @return la lista de coches
      */
 
     private fun crearListaCoches(listaClientes: Array<Conductor?>): Array<Coche?> {
@@ -153,16 +155,16 @@ object Aparcamiento {
         val respRegex = Regex("[1-5]")
 
         do {
-            println("\n1. Ordenar por matrícula de menor a mayor")
-            println("2. Ordenar por matrícula de mayor a menor")
-            println("3. Ordenar por año de fabricación de menor a mayor")
-            println("4. Ordenar por año de fabricación de mayor a menor")
-            println("5. Volver atrás")
+            println("\n${colores.azul}1.${colores.reset} Ordenar por matrícula de menor a mayor")
+            println("${colores.azul}2.${colores.reset} Ordenar por matrícula de mayor a menor")
+            println("${colores.azul}3.${colores.reset} Ordenar por año de fabricación de menor a mayor")
+            println("${colores.azul}4.${colores.reset} Ordenar por año de fabricación de mayor a menor")
+            println("${colores.azul}5.${colores.reset} Volver atrás")
 
-            print("\nSeleccione una acción: ")
+            print("\n${colores.verde}Seleccione una acción:${colores.reset} ")
             resp = readln()
             while (!respRegex.matches(resp)) {
-                print("Seleccione una acción válida: ")
+                print("${colores.rojo}Seleccione una acción válida:${colores.reset} ")
                 resp = readln()
             }
 
@@ -185,15 +187,15 @@ object Aparcamiento {
         val respRegex = Regex("[1-4]")
 
         do {
-            println("\n1. Ver datos de una plaza")
-            println("2. Ver cuantas plazas hay disponibles")
-            println("3. Ver cuantas plazas hay ocupadas")
-            println("4. Volver atrás")
+            println("\n${colores.azul}1.${colores.reset} Ver datos de una plaza")
+            println("${colores.azul}2.${colores.reset} Ver cuantas plazas hay disponibles")
+            println("${colores.azul}3.${colores.reset} Ver cuantas plazas hay ocupadas")
+            println("${colores.azul}4.${colores.reset} Volver atrás")
 
-            print("\nSeleccione una acción: ")
+            print("\n${colores.verde}Seleccione una acción:${colores.reset} ")
             resp = readln()
             while (!respRegex.matches(resp)) {
-                print("Seleccione una acción válida: ")
+                print("${colores.rojo}Seleccione una acción válida:${colores.reset} ")
                 resp = readln()
             }
 
@@ -208,7 +210,7 @@ object Aparcamiento {
     /**
      * Función que ordena la lista de coches de menor a mayor por matrícula o año de fabricación
      * @param numero Int (1 = ordenar por matrículas, 2 = ordenar por año de fabricación
-     * @return Array<Coche?>
+     * @return lista ordenada de coches
      */
 
     private fun ordenarLista(num: Int): Array<Coche?> {
@@ -275,7 +277,7 @@ object Aparcamiento {
 
     /**
      * Función que nos dice si una matrícula o dni ya existe
-     * @param item String
+     * @param item una matrícula o un dni
      * @return Boolean (True = existe el item, False = no existe el item)
      */
 
@@ -295,7 +297,7 @@ object Aparcamiento {
 
     /**
      * Función que agrega una matrícula o dni a una lista para registrarla
-     * @param item String
+     * @param item una matrícula o un dni
      */
 
     fun agregarItem(item: String) {
@@ -323,8 +325,8 @@ object Aparcamiento {
 
     /**
      * Función que nos devuelve el número de coches que hay en el parking
-     * @param listaClientes Array<Conductor?>
-     * @return Int
+     * @param listaClientes la lista de clientes
+     * @return número de coches en el parking
      */
 
     private fun numCoches(listaClientes: Array<Conductor?>): Int {
@@ -347,14 +349,14 @@ object Aparcamiento {
         val respRegex = Regex("[1-3]")
 
         if (!parkingLleno()) {
-            println("\n1. Nuevo cliente")
-            println("2. Nuevo coche de un cliente existente")
-            println("3. Volver atrás")
+            println("\n${colores.azul}1.${colores.reset} Nuevo cliente")
+            println("${colores.azul}2.${colores.reset} Nuevo coche de un cliente existente")
+            println("${colores.azul}3.${colores.reset} Volver atrás")
 
-            print("\nSeleccione una acción: ")
+            print("\n${colores.verde}Seleccione una acción:${colores.reset} ")
             resp = readln()
             while (!respRegex.matches(resp)) {
-                print("Seleccione una acción válida: ")
+                print("${colores.rojo}Seleccione una acción válida:${colores.reset} ")
                 resp = readln()
             }
 
@@ -362,7 +364,7 @@ object Aparcamiento {
                 "1" -> aparcaNuevoCliente()
                 "2" -> aparcaOtroCoche()
             }
-        } else println("\nEl parking está lleno, espere a que salga algún coche")
+        } else println("\n${colores.morado}El parking está lleno, espere a que salga algún coche${colores.reset}")
     }
 
     /**
@@ -381,7 +383,7 @@ object Aparcamiento {
 
     /**
      * Función que aparca un coche en el parking
-     * @param conductor Conductor
+     * @param conductor el conductor que va a aparcar
      */
 
     private fun aparcar(conductor: Conductor) {
@@ -396,14 +398,14 @@ object Aparcamiento {
                 parking[resp[0].code - 65][resp[1].code - 49] = conductor.cochesEnParking[tam - 1]
                 agregarCoche(conductor.cochesEnParking[tam - 1])
             } else {
-                println("\nYa hay un coche aparcado")
+                println("\n${colores.morado}Ya hay un coche aparcado${colores.reset}")
                 resp = ""
             }
         } while (resp == "")
 
         conductor.cochesEnParking[tam - 1]!!.hacerSonarMotor()
         conductor.presentarse()
-        println("Coche aparcado en $resp")
+        println("${colores.morado}Coche aparcado en $resp${colores.reset}")
         conductor.cochesEnParking[tam - 1]!!.plaza = resp
     }
 
@@ -417,10 +419,10 @@ object Aparcamiento {
         var resp: String
         val respRegex = Regex("[A-E][1-8]")
 
-        print("\nSeleccione un sitio (Ejemplo -> A1, b2): ")
+        print("\n${colores.verde}Seleccione un sitio (Ejemplo -> A1, b2):${colores.reset}")
         resp = readln().uppercase()
         while (!respRegex.matches(resp)) {
-            print("Seleccione un sitio válido: ")
+            print("${colores.rojo}Seleccione un sitio válido:${colores.reset} ")
             resp = readln().uppercase()
         }
 
@@ -429,7 +431,7 @@ object Aparcamiento {
 
     /**
      * Función que nos dice si existe un coche en una plaza dada
-     * @param sitio String
+     * @param sitio cadena asignada a la plaza
      * @return Boolean (True = Existe un coche, False = No existe coche)
      */
 
@@ -442,7 +444,7 @@ object Aparcamiento {
 
     /**
      * Función que añade un nuevo cliente a la lista de clientes
-     * @param conductor Conductor
+     * @param conductor conductor a añadir
      */
 
     private fun agregarCliente(conductor: Conductor) {
@@ -458,7 +460,7 @@ object Aparcamiento {
 
     /**
      * Función que añade un coche a la lista de coches
-     * @param coche Coche
+     * @param coche coche a añadir
      */
 
     private fun agregarCoche(coche: Coche?) {
@@ -496,7 +498,7 @@ object Aparcamiento {
 
     /**
      * Función para seleccionar un cliente con menos de tres coches
-     * @return Conductor?
+     * @return conductor con menos de tres coches
      */
 
     private fun elegirCliente(): Conductor? {
@@ -504,16 +506,16 @@ object Aparcamiento {
         val arrayClientesSeleccionados = clientesConMenosTresCoches()
 
         for (i in arrayClientesSeleccionados.indices) {
-            println("${i+1} -> ${arrayClientesSeleccionados[i]}")
+            println("${colores.azul}${i+1}${colores.reset} -> ${arrayClientesSeleccionados[i]}")
         }
 
         var resp: String
         val respRegex = Regex("[1-${arrayClientesSeleccionados.size}]")
 
-        print("\nEscoja un cliente de la lista: ")
+        print("\n${colores.verde}Escoja un cliente de la lista:${colores.reset} ")
         resp = readln()
         while (!respRegex.matches(resp)) {
-            print("Escoja un cliente válido: ")
+            print("${colores.rojo}Escoja un cliente válido:${colores.reset} ")
             resp = readln()
         }
 
@@ -522,7 +524,7 @@ object Aparcamiento {
 
     /**
      * Función que nos devuelve una lista con los clientes con menos de tres coches
-     * @return Array<Conductor?>
+     * @return lista de clientes con menos de tres coches
      */
 
     private fun clientesConMenosTresCoches(): Array<Conductor?> {
@@ -568,7 +570,7 @@ object Aparcamiento {
             }
             coche.propietario!!.cochesEnParking = arrayCoches
             coche.hacerSonarMotor()
-            println("El coche ha sido sacado con éxito")
+            println("${colores.morado}El coche ha sido sacado con éxito${colores.reset}")
             coche.plaza = ""
 
             coche.propietario!!.numCoches--
@@ -578,12 +580,12 @@ object Aparcamiento {
             }
             coche.propietario = null
             eliminarCoche(coche)
-        } else println("\nEl parking esta vacío, no hay coches que sacar")
+        } else println("\n${colores.morado}El parking esta vacío, no hay coches que sacar${colores.reset}")
     }
 
     /**
      * Función para elegir un coche del parking
-     * @return Coche?
+     * @return el coche elegido
      */
 
     private fun elegirCoche(): Coche? {
@@ -598,7 +600,7 @@ object Aparcamiento {
                 parking[resp[0].code-65][resp[1].code-49] = null
 
             } else {
-                println("\nNo existe ningún coche en el sitio seleccionado")
+                println("\n${colores.morado}No existe ningún coche en el sitio seleccionado${colores.reset}")
                 resp = ""
             }
 
@@ -609,7 +611,7 @@ object Aparcamiento {
 
     /**
      * Función para eliminar un coche de la lista de coches
-     * @param coche Coche
+     * @param coche coche a eliminar
      */
 
     private fun eliminarCoche(coche: Coche) {
@@ -628,7 +630,7 @@ object Aparcamiento {
 
     /**
      * Función para eliminar un cliente de la lista de clientes
-     * @param cliente Conductor?
+     * @param cliente cliente a eliminar
      */
 
     private fun eliminarCliente(cliente: Conductor?) {
@@ -654,14 +656,14 @@ object Aparcamiento {
         val resp: String = elegirSitio()
 
         if (parking[resp[0].code-65][resp[1].code-49] is Coche) {
-            println("\nLa plaza esta ocupada por -> ${parking[resp[0].code - 65][resp[1].code - 49]}")
-            println("El dueño es -> ${parking[resp[0].code - 65][resp[1].code - 49]!!.propietario}")
-        } else println("\nLa plaza está libre")
+            println("\n${colores.morado}La plaza esta ocupada por${colores.reset} -> ${parking[resp[0].code - 65][resp[1].code - 49]}")
+            println("${colores.morado}El dueño es${colores.reset} -> ${parking[resp[0].code - 65][resp[1].code - 49]!!.propietario}")
+        } else println("\n${colores.morado}La plaza está libre${colores.reset}")
     }
 
     /**
      * Función que nos dice el número de plazas libres en el parking
-     * @return Int
+     * @return número de plazas libres
      */
 
     private fun plazasDisponibles(): Int {
@@ -681,21 +683,21 @@ object Aparcamiento {
 
     /**
      * Función que nos imprime por pantalla el número de plazas libres del parking
-     * @param plazas Int
+     * @param plazas número de plazas libres
      */
 
     private fun stringPlazasDisponibles(plazas: Int) {
 
         when (plazas) {
-            0 -> println("\nNo hay plazas disponibles, disculpen las molestias")
-            1 -> println("\nQueda una única plaza, igual la pillas jeje")
-            else -> println("\nQuedan $plazas plazas disponibles")
+            0 -> println("\n${colores.morado}No hay plazas disponibles, disculpen las molestias${colores.reset}")
+            1 -> println("\n${colores.morado}Queda una única plaza, igual la pillas jeje${colores.reset}")
+            else -> println("\n${colores.morado}Quedan $plazas plazas disponibles${colores.reset}")
         }
     }
 
     /**
      * Función que nos dice el número de plazas ocupadas en el parking
-     * @return Int
+     * @return número de plazas ocupadas
      */
 
     private fun plazasOcupadas(): Int {
@@ -715,15 +717,15 @@ object Aparcamiento {
 
     /**
      * Función que nos imprime por pantalla el número de plazas ocupadas del parking
-     * @param plazas Int
+     * @param plazas número de plazas ocupadas
      */
 
     private fun stringPlazasOcupadas(plazas: Int) {
 
         when (plazas) {
-            0 -> println("\nNo hay ningún coche, el parking está vacío")
-            1 -> println("\nHay una plaza ocupada")
-            else -> println("\nHay $plazas plazas ocupadas")
+            0 -> println("\n${colores.morado}No hay ningún coche, el parking está vacío${colores.reset}")
+            1 -> println("\n${colores.morado}Hay una plaza ocupada${colores.reset}")
+            else -> println("\n${colores.morado}Hay $plazas plazas ocupadas${colores.reset}")
         }
     }
 
@@ -759,9 +761,9 @@ object Aparcamiento {
 
     /**
      * Función que asigna al coche la plaza en la que aparca
-     * @param coche Coche?
-     * @param i Int
-     * @param j Int
+     * @param coche el coche
+     * @param i posición i de la matriz
+     * @param j posición j de la matriz
      */
 
     private fun asignarPlaza(coche: Coche?, i: Int, j: Int) {
