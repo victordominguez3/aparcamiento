@@ -5,6 +5,7 @@ import Aparcamiento.imprimirListaCompleta
 import Aparcamiento.imprimirParking
 import Aparcamiento.listaClientes
 import Aparcamiento.listaCoches
+import Aparcamiento.menuDatosSitios
 import Aparcamiento.menuOrdenCoches
 import Aparcamiento.parking
 import Aparcamiento.recaudacion
@@ -25,7 +26,7 @@ fun main() {
         println("5.\tVer recaudación actual del parking")
         println("6.\tAparcar un coche")
         println("7.\tSacar un coche")
-        println("8.\tComprobar datos de un sitio")
+        println("8.\tComprobar datos de las plazas")
         println("9.\tSalir")
 
         print("\nSeleccione una acción: ")
@@ -43,7 +44,7 @@ fun main() {
             "5" -> println("\nSe han recaudado $recaudacion€")
             "6" -> menuAparcarCoche()
             "7" -> sacarCoche()
-            "8" -> comprobarSitio()
+            "8" -> menuDatosSitios()
         }
 
     } while (resp != "9")
@@ -51,14 +52,3 @@ fun main() {
     println("\nCerrando programa...")
 
 }
-
-//    aparcar -> si está lleno no
-//    salir
-//    donde aparcar? existe coche?
-//    cuantos coches hay?
-//    cuantos coches tiene un conductor en el parking?
-//    Listado de vehículos ordenados por antiguedad
-//    Recaudación
-//    models.Coche -> id, matricula, año
-//    Conductor -> id, nombre, dni
-//    Aparcar -> 3.75

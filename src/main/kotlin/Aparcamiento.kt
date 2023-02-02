@@ -17,8 +17,8 @@ object Aparcamiento {
     private fun crearParking(listaCoches: Array<Coche?>): Array<Array<Coche?>> {
 
         val parking = Array(5) { Array<Coche?>(8) { null } }
-        var randI = -1
-        var randJ = -1
+        var randI: Int
+        var randJ: Int
 
         for (i in listaCoches) {
             do {
@@ -26,6 +26,7 @@ object Aparcamiento {
                 randJ = (0 until 8).random()
                 if (parking[randI][randJ] == null) {
                     parking[randI][randJ] = i
+                    asignarPlaza(i, randI, randJ)
                     recaudacion += PRECIO_PARKING
                 } else randI = -1
             } while (randI == -1)
@@ -43,9 +44,11 @@ object Aparcamiento {
         println()
 
         for (i in 0 until parking[0].size) {
-            if (cont == 1) { print(" \t $cont        ") }
-            else if (cont == 3 || cont == 5 || cont == 7) print(" $cont        ")
-            else { print(" $cont  ") }
+            when (cont) {
+                1 -> { print(" \t $cont        ") }
+                3, 5, 7 -> print(" $cont        ")
+                else -> { print(" $cont  ") }
+            }
             cont++
         }
 
@@ -73,11 +76,11 @@ object Aparcamiento {
         }
     }
 
-    fun crearListaClientesInicial(): Array<Conductor?> {
+    private fun crearListaClientesInicial(): Array<Conductor?> {
         return Array<Conductor?>(10) { ConductoresFactory.crearConductorInicial() }
     }
 
-    fun crearListaCoches(listaClientes: Array<Conductor?>): Array<Coche?> {
+    private fun crearListaCoches(listaClientes: Array<Conductor?>): Array<Coche?> {
 
         val listaCoches = Array<Coche?>(numCoches(listaClientes)) { null }
         var cont = 0
@@ -114,25 +117,53 @@ object Aparcamiento {
         var resp: String
         val respRegex = Regex("[1-5]")
 
-        println("\n1. Ordenar por matrícula de menor a mayor")
-        println("2. Ordenar por matrícula de mayor a menor")
-        println("3. Ordenar por año de fabricación de menor a mayor")
-        println("4. Ordenar por año de fabricación de mayor a menor")
-        println("5. Volver atrás")
+        do {
+            println("\n1. Ordenar por matrícula de menor a mayor")
+            println("2. Ordenar por matrícula de mayor a menor")
+            println("3. Ordenar por año de fabricación de menor a mayor")
+            println("4. Ordenar por año de fabricación de mayor a menor")
+            println("5. Volver atrás")
 
-        print("\nSeleccione una acción: ")
-        resp = readln()
-        while (!respRegex.matches(resp)) {
-            print("Seleccione una acción válida: ")
+            print("\nSeleccione una acción: ")
             resp = readln()
-        }
+            while (!respRegex.matches(resp)) {
+                print("Seleccione una acción válida: ")
+                resp = readln()
+            }
 
-        when (resp) {
-            "1" -> imprimirLista(ordenarLista(1) as Array<Any?>)
-            "2" -> imprimirLista(ordenarLista(1).reversedArray() as Array<Any?>)
-            "3" -> imprimirLista(ordenarLista(2) as Array<Any?>)
-            "4" -> imprimirLista(ordenarLista(2).reversedArray() as Array<Any?>)
-        }
+            when (resp) {
+                "1" -> imprimirLista(ordenarLista(1) as Array<Any?>)
+                "2" -> imprimirLista(ordenarLista(1).reversedArray() as Array<Any?>)
+                "3" -> imprimirLista(ordenarLista(2) as Array<Any?>)
+                "4" -> imprimirLista(ordenarLista(2).reversedArray() as Array<Any?>)
+            }
+        } while (resp != "5")
+    }
+
+    fun menuDatosSitios() {
+
+        var resp: String
+        val respRegex = Regex("[1-4]")
+
+        do {
+            println("\n1. Ver datos de una plaza")
+            println("2. Ver cuantas plazas hay disponibles")
+            println("3. Ver cuantas plazas hay ocupadas")
+            println("4. Volver atrás")
+
+            print("\nSeleccione una acción: ")
+            resp = readln()
+            while (!respRegex.matches(resp)) {
+                print("Seleccione una acción válida: ")
+                resp = readln()
+            }
+
+            when (resp) {
+                "1" -> comprobarSitio()
+                "2" -> stringPlazasDisponibles(plazasDisponibles())
+                "3" -> stringPlazasOcupadas(plazasOcupadas())
+            }
+        } while (resp != "4")
     }
 
     private fun ordenarLista(num: Int): Array<Coche?> {
@@ -234,7 +265,7 @@ object Aparcamiento {
         }
     }
 
-    fun numCoches(listaClientes: Array<Conductor?>): Int {
+    private fun numCoches(listaClientes: Array<Conductor?>): Int {
         var coches = 0
 
         for (i in listaClientes) {
@@ -296,7 +327,9 @@ object Aparcamiento {
         } while (resp == "")
 
         conductor.cochesEnParking[tam - 1]!!.hacerSonarMotor()
+        conductor.presentarse()
         println("Coche aparcado en $resp")
+        conductor.cochesEnParking[tam - 1]!!.plaza = resp
     }
 
     private fun elegirSitio(): String {
@@ -304,7 +337,7 @@ object Aparcamiento {
         var resp: String
         val respRegex = Regex("[A-E][1-8]")
 
-        print("\nSeleccione un sitio (Ejemplo -> A1, B2): ")
+        print("\nSeleccione un sitio (Ejemplo -> A1, b2): ")
         resp = readln().uppercase()
         while (!respRegex.matches(resp)) {
             print("Seleccione un sitio válido: ")
@@ -358,7 +391,6 @@ object Aparcamiento {
         conductor.cochesEnParking = arrayCocheNuevo
         conductor.numCoches++
 
-        elegirSitio()
         aparcar(conductor)
     }
 
@@ -415,7 +447,7 @@ object Aparcamiento {
             val arrayCoches = Array<Coche?>(coche!!.propietario!!.numCoches - 1) {null}
 
             for (i in coche.propietario!!.cochesEnParking) {
-                if (i != coche) {
+                if (!i!!.equals(coche)) {
                     arrayCoches[cont] = i
                     cont++
                 }
@@ -423,6 +455,7 @@ object Aparcamiento {
             coche.propietario!!.cochesEnParking = arrayCoches
             coche.hacerSonarMotor()
             println("El coche ha sido sacado con éxito")
+            coche.plaza = ""
 
             coche.propietario!!.numCoches--
 
@@ -460,7 +493,7 @@ object Aparcamiento {
         var cont = 0
 
         for (i in listaCoches) {
-            if (i != coche) {
+            if (!i!!.equals(coche)) {
                 array[cont] = i
                 cont++
             }
@@ -474,7 +507,7 @@ object Aparcamiento {
         var cont = 0
 
         for (i in listaClientes) {
-            if (i != cliente) {
+            if (!i!!.equals(cliente)) {
                 array[cont] = i
                 cont++
             }
@@ -491,6 +524,54 @@ object Aparcamiento {
             println("\nLa plaza esta ocupada por -> ${parking[resp[0].code - 65][resp[1].code - 49]}")
             println("El dueño es -> ${parking[resp[0].code - 65][resp[1].code - 49]!!.propietario}")
         } else println("\nLa plaza está libre")
+    }
+
+    private fun plazasDisponibles(): Int {
+
+        var plazas = 0
+
+        for (i in parking.indices) {
+            for (j in parking[i].indices) {
+                if (parking[i][j] == null) {
+                    plazas++
+                }
+            }
+        }
+
+        return plazas
+    }
+
+    private fun stringPlazasDisponibles(plazas: Int) {
+
+        when (plazas) {
+            0 -> println("\nNo hay plazas disponibles, disculpen las molestias")
+            1 -> println("\nQueda una única plaza, igual la pillas jeje")
+            else -> println("\nQuedan $plazas plazas disponibles")
+        }
+    }
+
+    private fun plazasOcupadas(): Int {
+
+        var plazas = 0
+
+        for (i in parking.indices) {
+            for (j in parking[i].indices) {
+                if (parking[i][j] is Coche) {
+                    plazas++
+                }
+            }
+        }
+
+        return plazas
+    }
+
+    private fun stringPlazasOcupadas(plazas: Int) {
+
+        when (plazas) {
+            0 -> println("\nNo hay ningún coche, el parking está vacío")
+            1 -> println("\nHay una plaza ocupada")
+            else -> println("\nHay $plazas plazas ocupadas")
+        }
     }
 
     private fun parkingLleno(): Boolean {
@@ -511,6 +592,15 @@ object Aparcamiento {
             }
         }
         return true
+    }
+
+    private fun asignarPlaza(coche: Coche?, i: Int, j: Int) {
+
+        val caracter = (i + 65).toChar()
+        val num = (j + 49).toChar()
+
+        coche!!.plaza = "$caracter$num"
+
     }
 }
 
@@ -539,7 +629,7 @@ object Aparcamiento {
 //sobre un numero entero: primo(boolean)
 
 
-
+// Hacer un setBuilder
 
 
 
