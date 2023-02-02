@@ -600,42 +600,5 @@ object Aparcamiento {
         val num = (j + 49).toChar()
 
         coche!!.plaza = "$caracter$num"
-
     }
 }
-
-
-//PROYECTO PROGRAMACION FUNCIONAL
-
-//Hacer clase fraccion y clase complejo y clase vector en 3D, arrays, in -> ALGEBRA
-    //fracciones: igualdad, suma, resta, multiplicacion, division
-    //complejo: suma resta conjugado multiplicacion division
-    //vector: suma, resta
-    //arrays: suma de arrays, resta de arrays
-    //in(contains)
-
-//infix de operadores
-
-//Funcion llamada ordenar que acepte el predicado de ordenacion
-
-//Imprimir y recorrer una matriz, encontrar un elemento en la matriz
-
-//personas.map -> que te saque una lista de los nombres de un array de personas
-
-//sobre un array de enteros: implementar forEach, find, filter, map, max, min, contar, sumar
-
-//sobre una cadena: palindormo(boolean)
-
-//sobre un numero entero: primo(boolean)
-
-
-// Hacer un setBuilder
-
-
-
-
-
-
-
-
-

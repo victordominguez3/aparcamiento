@@ -1,5 +1,4 @@
 import Aparcamiento.menuAparcarCoche
-import Aparcamiento.comprobarSitio
 import Aparcamiento.imprimirLista
 import Aparcamiento.imprimirListaCompleta
 import Aparcamiento.imprimirParking
