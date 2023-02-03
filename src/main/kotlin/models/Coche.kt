@@ -34,6 +34,7 @@ class Coche (
         res = 31 * res + matricula.hashCode()
         res = 31 * res + marca.hashCode()
         res = 31 * res + anyoFabricacion.hashCode()
+        res = 31 * res + id.hashCode()
 
         return res
     }

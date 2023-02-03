@@ -32,6 +32,7 @@ class Conductor(
         res = 31 * res + nombre.hashCode()
         res = 31 * res + apellido.hashCode()
         res = 31 * res + dni.hashCode()
+        res = 31 * res + id.hashCode()
 
         return res
     }
